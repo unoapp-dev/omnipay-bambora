@@ -4,16 +4,37 @@ namespace  Omnipay\Bambora\Message;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
-    protected $endpoint = 'https://api.na.bambora.com/v1';
+    protected $endpoint = null;
 
     public function getEndpoint()
     {
-        return $this->endpoint;
+        if ($this->endpoint) return $this->endpoint;
+        return $this->endpoint = $this->getTestMode() ? $this->getSandboxEndPoint() : $this->getProductionEndPoint();
     }
 
     public function setEndpoint($endpoint)
     {
         $this->endpoint = $endpoint;
+    }
+
+    public function getSandboxEndPoint()
+    {
+        return $this->getParameter('sandboxEndPoint');
+    }
+
+    public function setSandboxEndPoint($value)
+    {
+        return $this->setParameter('sandboxEndPoint', $value);
+    }
+
+    public function getProductionEndPoint()
+    {
+        return $this->getParameter('productionEndPoint');
+    }
+    
+    public function setProductionEndPoint($value)
+    {
+        return $this->setParameter('productionEndPoint', $value);
     }
 
     public function getMerchantId()

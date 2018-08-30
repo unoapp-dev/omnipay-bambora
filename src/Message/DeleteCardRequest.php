@@ -7,7 +7,7 @@ class DeleteCardRequest extends AbstractRequest
     public function getEndpoint()
     {
         $this->validate('cardReference');
-        
+        $this->endpoint = $this->getTestMode() ? $this->getSandboxEndPoint() : $this->getProductionEndPoint();
         return $this->endpoint . '/profiles/' . $this->getCardReference();
     }
 
